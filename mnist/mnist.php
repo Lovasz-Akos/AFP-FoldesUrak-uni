@@ -33,7 +33,7 @@
     }
 
     // Ha beadtunk egy számot..
-    if(!empty($_GET["number"])){
+    if(isset($_GET["number"])){
         $ertek = intval($_GET["number"]);
         // És a szám helyes..
         if($ertek == $_SESSION['helyesErtek']) {
