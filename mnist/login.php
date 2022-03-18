@@ -3,7 +3,7 @@
 	session_start();
 	$db = new dbObj();
 	$connection = $db->getConnection();
-	mysqli_set_charset($connection, "utf-8");
+	mysqli_set_charset($connection, 'utf8');
     if (isset($_POST["belep"])) 
 	{
 		$result = mysqli_query($connection, "select * from users");
@@ -20,6 +20,7 @@
 				$_SESSION["pw"]=$_POST["jelsz"];
 				$_SESSION["email"]=$sor["email"];
 				$_SESSION["userid"] = $sor["id"];
+				$_SESSION["userLoggedIn"]=true;
 				header("location:index.php");
 			}
 		}

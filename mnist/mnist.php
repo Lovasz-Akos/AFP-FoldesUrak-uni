@@ -33,7 +33,7 @@
     }
 
     // Ha beadtunk egy számot..
-    if(!empty($_GET["number"])){
+    if(isset($_GET["number"])){
         $ertek = intval($_GET["number"]);
         // És a szám helyes..
         if($ertek == $_SESSION['helyesErtek']) {
@@ -66,6 +66,7 @@
 <html>
     <head>
     
+        <link rel="stylesheet" href="style.css">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
         <link rel="stylesheet" href="./Resources/button.css">
         <script>
