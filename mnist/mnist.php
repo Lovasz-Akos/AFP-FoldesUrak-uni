@@ -2,12 +2,8 @@
     // MNIST LOGIKA (Makai Balázs) 
     require 'connection.php';
     session_start();
-    $_SESSION['imageSrc'] = "\Project\images\num_1977_[3].png";
 
-    // Ha nincs bejelentkezve
-    if($_SESSION["userLoggedIn"] != true) {
-        header('Location: login.php');
-    } 
+    $_SESSION['imageSrc'] = "\Project\images\&";
 
     //Dobja fel adatbázisba az eredményt
     if($_SESSION['kerdesekSzama'] <= 0) {
@@ -15,6 +11,10 @@
 
         $db = new dbObj();
         $connection = $db->getConnection();
+
+        if(!isset($_SESSION['userLoggedIn']) || !$_SESSION['userLoggedIn']) {
+            $_SESSION["user"] = "Vendég";
+        }
 
         $query = "INSERT INTO rangsor SET felhasznalonev = ' ".$_SESSION["user"]." ', pontszam =' ".$_SESSION["jóMegoldások"]." ' ";
 
@@ -88,16 +88,40 @@
         <title>Mnist</title>
     </head>
     <body>
-    <nav class="navtop">
-			<div>
-                <h1>Felhasználó</h1>
-				<a href="profile.php"><i class="fas fa-user-circle"></i>Profil</a>
-				<a href="mnist.php"><i class="fas fa-user-circle"></i>MNIST</a>
-				<a href="ki.php"><i class="fas fa-sign-out-alt"></i>Kijelentkezés</a>
-			</div>
-		</nav>
-        <!-- MNIST LOGIKA (Makai Balázs) -->
+    <?php
+        // Felhasználó panel kiiratása, hogyha a felhasználó bevan jelentkezve
+        if(isset($_SESSION['userLoggedIn']) && $_SESSION['userLoggedIn']) {
+            echo '
+            <nav class="navtop">
+                    <div>
+                        <h1>MNIST by humans</h1>
+                        <a href="profile.php"><i class="fas fa-user-circle"></i>Profil</a>
+                        <a href="mnist.php"><i class="fas fa-user-circle"></i>MNIST</a>
+                        <a href="ki.php"><i class="fas fa-sign-out-alt"></i>Kijelentkezés</a>
+                    </div>
+                </nav>
+                ';
+        }
+        else {
+            // Bejelentkezés/Regisztrációs sáv
+            echo'
+            <nav class="navtop">
+                    <div>
+                        <h1>MNIST by humans</h1>
+                        <a href="login.php"><i class="fas fa-user-circle"></i>Bejelentkezés</a>
+                        <a href="regisztral.php"><i class="fas fa-user-circle"></i>Regisztrálok</a>
+                        <a href="mnist.php"><i class="fas fa-user-circle"></i>MNIST</a>
+                    </div>
+                </nav>
+                ';
 
+            // Felhívjük a felhasználó figyelmét, hogy nincs bejelentkezve
+            echo'
+                <div class="guestmessage">
+                <p>MNIST vendégként</p>
+                ';
+        }
+        ?> 
             <img src="Resources\Images\<?php echo getRandomImage(); ?>">
 
             <p> Helyes válaszok száma: <?php echo $_SESSION["jóMegoldások"] ?> </p>

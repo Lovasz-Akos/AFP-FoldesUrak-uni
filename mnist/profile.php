@@ -5,7 +5,7 @@ session_start();
 
 // Ha a felhasználó nincs belépve
 if($_SESSION["userLoggedIn"] != true) {
-	header('Location: login.php');
+	header('Location: index.php');
 } 
 
 $server = 'localhost'; 
@@ -33,7 +33,7 @@ $eredmeny->close();
 	<body class="loggedin">
 		<nav class="navtop">
 			<div>
-                <h1>Felhasználó</h1>
+                <h1>MNIST by humans</h1>
 				<a href="profile.php"><i class="fas fa-user-circle"></i>Profil</a>
 				<a href="mnist.php"><i class="fas fa-user-circle"></i>MNIST</a>
 				<a href="ki.php"><i class="fas fa-sign-out-alt"></i>Kijelentkezés</a>
