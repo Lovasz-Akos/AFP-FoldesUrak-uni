@@ -4,6 +4,16 @@
     session_start();
 
     $_SESSION['imageSrc'] = "\Project\images\&";
+        //Generálunk egy random számot                  
+        $index = rand(0, 2000);
+
+        //Készítünk egy tömböt
+        $path = 'Resources/Images';
+        $files = scandir($path);
+
+        $randomImage = $files[$index];
+        $_SESSION["helyesErtek"] = substr($randomImage, -6, 1);
+        $_SESSION["image"]=$randomImage;
 
     //Dobja fel adatbázisba az eredményt
     if($_SESSION['kerdesekSzama'] <= 0) {
@@ -47,20 +57,7 @@
             header("Location: mnist.php");
         }
     }
-
-    function getRandomImage() {   
-        //Generálunk egy random számot                  
-        $index = rand(0, 2000);
-
-        //Készítünk egy tömböt
-        $path = 'Resources/Images';
-        $files = scandir($path);
-
-        $randomImage = $files[$index];
-        $_SESSION["helyesErtek"] = substr($randomImage, -6, 1);
-        print($randomImage);
-
-    }
+    
 ?>
 
 <html>
@@ -69,6 +66,7 @@
         <link rel="stylesheet" href="style.css">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
         <link rel="stylesheet" href="./Resources/button.css">
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
         <script>
 
         // SZÁMBILLENTYŰZET (Galvács István)
@@ -83,8 +81,17 @@
             tbInput.value = tbInput.value.
             substr(0, tbInput.value.length - 1);
         }
+        </script>
+        
+        <script type="text/javascript">
+        $(document).ready(function(){ $("b").click(function()
+        {
+            document.getElementById("include").innerHTML = "<?php include('stat.php');?> "; });
+            $(document).on("click", "a.remove" , function()
+            { $(this).parent().remove(); }); });
 
         </script>
+
         <title>Mnist</title>
     </head>
     <body>
@@ -122,7 +129,7 @@
                 ';
         }
         ?> 
-            <img src="Resources\Images\<?php echo getRandomImage(); ?>">
+            <img src="Resources\Images\<?php echo $_SESSION["image"] ?>">
 
             <p> Helyes válaszok száma: <?php echo $_SESSION["jóMegoldások"] ?> </p>
             <p> Hátralévő kérdések száma: <?php echo $_SESSION["kerdesekSzama"] ?> </p>
@@ -151,6 +158,9 @@
             <br />
             <input class="button"id="btn0" type="button"value="0" onclick="input(this)" />
             <input class="button"id="btnDel" type="button" value="Töröl " onclick="del();"style="width:65px" />
-        </div>
+        </div><br />
+
+        <b><input type='submit' value='Statisztika'></b>
+        <div id='include'></div>
     </body>
 </html>
