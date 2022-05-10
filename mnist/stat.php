@@ -20,6 +20,4 @@
     echo "</tr>";
     echo "</table>";
 
-
-
 ?>

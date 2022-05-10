@@ -129,38 +129,44 @@
                 ';
         }
         ?> 
-            <img src="Resources\Images\<?php echo $_SESSION["image"] ?>">
+        <div class="mnist">
+                <img class="mnistpic" src="Resources\Images\<?php echo $_SESSION["image"] ?>">
+                <p> Helyes válaszok száma: <?php echo $_SESSION["jóMegoldások"] ?> </p>
+                <p> Hátralévő kérdések száma: <?php echo $_SESSION["kerdesekSzama"] ?> </p>
+        </div>
 
-            <p> Helyes válaszok száma: <?php echo $_SESSION["jóMegoldások"] ?> </p>
-            <p> Hátralévő kérdések száma: <?php echo $_SESSION["kerdesekSzama"] ?> </p>
-
-
+        <div class="mnist">
             <form>
                 <label for  = "number">Number:</label>
                 <input type = "number" id ="tbInput" name ="number" min="0" max = "9" step = "1" required>
-                <input type = "submit" value="Submit">
+                <input type = "submit" class="button-4 sub" value="Submit">
             </form>
 
         <!-- SZÁMBILLENTYŰZET (Galvács István) -->
         
         <div id="VirtualKey">
-            <input class="button"id="btn1" type="button" value="1" onclick="input(this);" />
-            <input class="button"id="btn2" type="button" value="2" onclick="input(this);"/>
-            <input class="button"id="btn3" type="button"value="3" onclick="input(this);" />
+            <input class="button-4"id="btn1" type="button" value="1" onclick="input(this);" />
+            <input class="button-4"id="btn2" type="button" value="2" onclick="input(this);"/>
+            <input class="button-4"id="btn3" type="button"value="3" onclick="input(this);" />
             <br />
-            <input class="button"id="btn4" type="button"value="4" onclick="input(this);" />
-            <input class="button"id="btn5" type="button"value="5" onclick="input(this);" />
-            <input class="button"id="btn6" type="button"value="6" onclick="input(this);" />
+            <input class="button-4"id="btn4" type="button"value="4" onclick="input(this);" />
+            <input class="button-4"id="btn5" type="button"value="5" onclick="input(this);" />
+            <input class="button-4"id="btn6" type="button"value="6" onclick="input(this);" />
             <br />
-            <input class="button"id="btn7" type="button"value="7" onclick="input(this);" />
-            <input class="button"id="btn8" type="button"value="8" onclick="input(this);" />
-            <input class="button"id="btn9" type="button"value="9" onclick="input(this);" />
+            <input class="button-4"id="btn7" type="button"value="7" onclick="input(this);" />
+            <input class="button-4"id="btn8" type="button"value="8" onclick="input(this);" />
+            <input class="button-4"id="btn9" type="button"value="9" onclick="input(this);" />
             <br />
-            <input class="button"id="btn0" type="button"value="0" onclick="input(this)" />
-            <input class="button"id="btnDel" type="button" value="Töröl " onclick="del();"style="width:65px" />
+            <input class="button-4"id="btn0" type="button"value="0" onclick="input(this)" />
+            <input class="button-4 del"id="btnDel" type="button" value="Töröl " onclick="del();" />
         </div><br />
+        </div>
 
-        <b><input type='submit' value='Statisztika'></b>
+        <div class="mnist">
+        <b><input type='submit' class='btn' value='Statisztika'></b>
+
         <div id='include'></div>
+        </div>
+    </div>
     </body>
 </html>
