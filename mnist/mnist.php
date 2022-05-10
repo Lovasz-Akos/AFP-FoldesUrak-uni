@@ -59,6 +59,31 @@
         header("Location: index.php");
     }
 
+    $db = new dbObj();
+    $connection = $db->getConnection();
+    $image=$_SESSION['image'];
+    $result=$connection->query("SELECT SUM(number_of_guesses) AS 'sum' FROM stat GROUP BY filename HAVING filename='".$image."';");
+    $row=$result->fetch_assoc();
+    $numofguesses=$row['sum'];
+    $result=$connection->query("SELECT number_of_guesses FROM stat GROUP BY filename,number HAVING filename='".$image."';");
+    $index=0;
+    $datas = array();
+    while(($row =  mysqli_fetch_assoc($result))) {
+    $datas[$index] = $row['number_of_guesses'];
+    $index++;
+}
+
+    $dataPoints = array( 
+        array("label"=>"0", "y"=>number_format(($datas[0]/(int)$numofguesses)*100,2)),
+        array("label"=>"1", "y"=>number_format(($datas[1]/(int)$numofguesses)*100,2)),
+        array("label"=>"2", "y"=>number_format(($datas[2]/(int)$numofguesses)*100,2)),
+        array("label"=>"3", "y"=>number_format(($datas[3]/(int)$numofguesses)*100,2)),
+        array("label"=>"4", "y"=>number_format(($datas[4]/(int)$numofguesses)*100,2)),
+        array("label"=>"5", "y"=>number_format(($datas[5]/(int)$numofguesses)*100,2)),
+        array("label"=>"6", "y"=>number_format(($datas[6]/(int)$numofguesses)*100,2)),
+        array("label"=>"7", "y"=>number_format(($datas[7]/(int)$numofguesses)*100,2)),
+        array("label"=>"8", "y"=>number_format(($datas[8]/(int)$numofguesses)*100,2)),
+        array("label"=>"9", "y"=>number_format(($datas[9]/(int)$numofguesses)*100,2)));
 ?>
 
 <html>
@@ -68,7 +93,22 @@
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
         <link rel="stylesheet" href="./Resources/button.css">
         <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
         <script>
+
+        function graph() {       
+            var chart = new CanvasJS.Chart("chartContainer", {
+	        animationEnabled: true,
+	        title: {text: "Tippek eloszlása"},
+	        data: [{
+		        type: "pie",
+		        yValueFormatString: "#,##0.00\"%\"",
+		        indexLabel: "{label} ({y})",
+		        dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>}]
+            });
+            chart.render();
+        }
+            
 
         // SZÁMBILLENTYŰZET (Galvács István)
 
@@ -82,15 +122,6 @@
             tbInput.value = tbInput.value.
             substr(0, tbInput.value.length - 1);
         }
-        </script>
-        
-        <script type="text/javascript">
-        $(document).ready(function(){ $("b").click(function()
-        {
-            document.getElementById("include").innerHTML = "<?php include('stat.php');?> "; });
-            $(document).on("click", "a.remove" , function()
-            { $(this).parent().remove(); }); });
-
         </script>
 
         <title>Mnist</title>
@@ -164,9 +195,10 @@
         </div>
 
         <div class="mnist">
-        <b><input type='submit' class='btn' value='Statisztika'></b>
+        <b><input type='submit' onclick="graph();" class='btn' value='Statisztika'></b><br>
 
-        <div id='include'></div>
+        <div id='include'></div><br><br>
+        <div id="chartContainer" style="height: 370px; width: 100%;"></div>
         </div>
     </div>
     </body>
