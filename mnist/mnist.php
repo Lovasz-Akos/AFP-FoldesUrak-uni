@@ -3,6 +3,23 @@
     require 'connection.php';
     session_start();
 
+        // Ha beadtunk egy számot..
+        if(isset($_GET["number"])){
+            $ertek = intval($_GET["number"]);
+            // És a szám helyes..
+            if($ertek == $_SESSION['helyesErtek']) {
+                $_SESSION["jóMegoldások"] = $_SESSION["jóMegoldások"] + 1;
+                $_SESSION["kerdesekSzama"] = $_SESSION["kerdesekSzama"] - 1;
+                header("Location: mnist.php");
+            }
+            // És a szám helytelen..
+            else {
+                $_SESSION["kerdesekSzama"] = $_SESSION["kerdesekSzama"] - 1;
+                header("Location: mnist.php");
+            }
+        }
+        
+
     $_SESSION['imageSrc'] = "\Project\images\&";
         //Generálunk egy random számot                  
         $index = rand(0, 2000);
@@ -42,22 +59,6 @@
         header("Location: index.php");
     }
 
-    // Ha beadtunk egy számot..
-    if(isset($_GET["number"])){
-        $ertek = intval($_GET["number"]);
-        // És a szám helyes..
-        if($ertek == $_SESSION['helyesErtek']) {
-            $_SESSION["jóMegoldások"] = $_SESSION["jóMegoldások"] + 1;
-            $_SESSION["kerdesekSzama"] = $_SESSION["kerdesekSzama"] - 1;
-            header("Location: mnist.php");
-        }
-        // És a szám helytelen..
-        else {
-            $_SESSION["kerdesekSzama"] = $_SESSION["kerdesekSzama"] - 1;
-            header("Location: mnist.php");
-        }
-    }
-    
 ?>
 
 <html>
@@ -130,17 +131,14 @@
         }
         ?> 
         <div class="mnist">
+        <div class="mnist-half">
                 <img class="mnistpic" src="Resources\Images\<?php echo $_SESSION["image"] ?>">
                 <p> Helyes válaszok száma: <?php echo $_SESSION["jóMegoldások"] ?> </p>
                 <p> Hátralévő kérdések száma: <?php echo $_SESSION["kerdesekSzama"] ?> </p>
-        </div>
-
-        <div class="mnist">
-            <form>
-                <label for  = "number">Number:</label>
-                <input type = "number" id ="tbInput" name ="number" min="0" max = "9" step = "1" required>
-                <input type = "submit" class="button-4 sub" value="Submit">
-            </form>
+  
+            <form class="calc">
+                <input class="button-4 calc" type = "number" id ="tbInput" name ="number" min="0" max = "9" step = "1" required>
+         
 
         <!-- SZÁMBILLENTYŰZET (Galvács István) -->
         
@@ -158,8 +156,11 @@
             <input class="button-4"id="btn9" type="button"value="9" onclick="input(this);" />
             <br />
             <input class="button-4"id="btn0" type="button"value="0" onclick="input(this)" />
-            <input class="button-4 del"id="btnDel" type="button" value="Töröl " onclick="del();" />
+            <input class="button-4 del"id="btnDel" type="button" value="Töröl " onclick="del();" /><br>
+            <input type = "submit" class="button-4 sub" value="Submit">
+            </form>
         </div><br />
+        </div>
         </div>
 
         <div class="mnist">

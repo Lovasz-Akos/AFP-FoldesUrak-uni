@@ -28,14 +28,19 @@
   }
 
   .button-4.del{
-    width: 95px;
+    width: 100px;
   }
 
   .button-4.sub{
-    width: 100px;
-    height: 45px;
+    width: 150px;
+    height: 35px;
   }
   
+  .button-4.calc{
+    width: 145px;
+    height: 25px;
+    margin-bottom: 10px;
+  }
   
   .button-4:hover {
     background-color: #F3F4F6;
